@@ -1,38 +1,95 @@
-rust-magic [![Build Status](https://travis-ci.org/robo9k/rust-magic.svg?branch=master)](https://travis-ci.org/robo9k/rust-magic) [![Documentation](https://docs.rs/magic/badge.svg)](https://docs.rs/magic)
-==========
-[libmagic](http://darwinsys.com/file/) bindings for [Rust](http://www.rust-lang.org/).
+filemagic-rs
+-------------
+[![Build Status](https://travis-ci.org/marirs/filemagic-rs.svg?branch=master)](https://travis-ci.org/marirs/filemagic-rs)
+[![Documentation](https://docs.rs/magic/badge.svg)](https://docs.rs/magic)
 
+filemagic is a [Rust](http://www.rust-lang.org/) wrapper for [libmagic](http://darwinsys.com/file/), the library that supports the file command on most Unix systems. 
+The package provides a simple [Rust](http://www.rust-lang.org/) API for identifying files using the extensive database of magic strings that ships with libmagic.
+It can also load a custom database of magic strings.
 
-# Usage
+### Requirements
+- `Rust 1.40.0` or above stable version
+- `libmagic` 
+  - macOS: `brew install libmagic`
+  - Linux: `apt install libmagic1 libmagic-dev`  
 
-Create a new Cargo project (or edit your existing one):
+### Usage
 
-```sh
-$ cargo new --bin magic-usage && cd magic-usage/
-$ $EDITOR Cargo.toml
-```
-
-Add a dependency to your `Cargo.toml` (see [Cargo doc](http://doc.crates.io/guide.html#adding-dependencies)):
-
+Adding dependency to your `Cargo.toml` file
 ```toml
-[dependencies]
-magic = "0.*"
+filemagic = { git = "https://github.com/marirs/filemagic-rs", branch = "master" }
+```
+---
+### Using Macros
+
+- Using default libmagic database:
+```rust
+use filemagic::magic;
+
+fn main() {
+  let test_file_path = "/path/to/file";
+  let magic = magic!().expect("error");
+  
+  println!("{}", magic.file(&test_file_path).expect("error"));
+}
 ```
 
-Then use the [`magic` crate](https://crates.io/crates/magic) according to [its documentation](https://docs.rs/magic/#usage-example).
+- Using custom Magic database:
+```rust
+use filemagic::magic;
 
+fn main() {
+  let test_file_path = "/path/to/file";
+  let databases = vec!["data/db-images-png"];
+  
+  let magic = magic!(,&databases).expect("error");
+  
+  println!("{}", magic.file(&test_file_path).expect("error"));
+}
+```
 
-# Requirements
+---
+### Using the function
 
-Needs `rustc 1.6 stable` or later. [Create an issue](https://github.com/robo9k/rust-magic/issues/new) if it does not work on current stable.
+- Using the default libmagic database:
+```rust
+use filemagic::Magic;
 
-By default compiling `rust-magic` will search your system library paths for a version of `libmagic.so`. If you're cross-compiling, or need more control over which library is selected, see [how to build `rust-magic-sys`](https://github.com/robo9k/rust-magic-sys#building).
+fn main() {
+    let test_file_path = "/path/to/file";
+    // Create a new default configuration
+    let cookie = Magic::open(Default::default()).expect("error");
+    cookie.load::<String>(&[]).expect("error");
+    let magic = cookie.file(&test_file_path).expect("error in magic");
+    println!("magic= {}", magic);
+}
+```
 
-# License
+- Using custom Magic database:
+```rust
+use filemagic::Magic;
 
-This project is licensed under the MIT license (see [`LICENSE`](https://github.com/robo9k/rust-magic/blob/master/LICENSE)).
+fn main() {
+    // Create a new default configuration
+    let cookie = Magic::open(Default::default()).expect("error");
+    // Load one specific magic database
+    let databases = vec!["data/db-images-png"];
+    assert!(cookie.load(&databases).is_ok());
 
-The `magic-sys` crate being used is licensed under the MIT license as well (see [`LICENSE`](https://github.com/robo9k/rust-magic-sys/blob/master/LICENSE)).
+    // Recognize the magic of a test file
+    let test_file_path = "data/rust-logo-128x128-blk.png";
+    let expected_magic = "PNG image data, 128 x 128, 8-bit/color RGBA, non-interlaced";
+    assert_eq!(cookie.file(&test_file_path).unwrap(), expected_magic);
+}
+```
 
-The `file`/`libmagic` project is licensed under a modified BSD license (see [`COPYING`](https://github.com/file/file/blob/master/COPYING)).
-This crate contains partial test-data from its magic databases (`rust-magic/data/tests/db-images-png` is from `file/magic/Magdir/images`, `rust-magic/data/tests/db-python` is from `file/magic/Magdir/python`).
+---
+### To generate the docs
+```bash
+cargo doc --release
+```
+
+---
+References:
+- robo9k [rust-magic](https://github.com/robo9k/rust-magic) & [rust-magic-sys](https://github.com/robo9k/rust-magic-sys)
+- [Aaron Iles](https://github.com/aliles/filemagic)

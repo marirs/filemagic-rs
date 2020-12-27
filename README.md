@@ -1,7 +1,8 @@
 filemagic-rs
 -------------
-[![Build Status](https://travis-ci.org/marirs/filemagic-rs.svg?branch=master)](https://travis-ci.org/marirs/filemagic-rs)
+![Crates.io](https://img.shields.io/crates/v/filemagic)
 [![Documentation](https://docs.rs/filemagic/badge.svg)](https://docs.rs/filemagic)
+[![Build Status](https://travis-ci.org/marirs/filemagic-rs.svg?branch=master)](https://travis-ci.org/marirs/filemagic-rs)
 
 filemagic is a [Rust](http://www.rust-lang.org/) wrapper for [libmagic](http://darwinsys.com/file/), the library that supports the file command on most Unix systems. 
 The package provides a simple [Rust](http://www.rust-lang.org/) API for identifying files using the extensive database of magic strings that ships with libmagic.

@@ -6,6 +6,7 @@ license = "MIT"
 keywords = ["magic", "binding", "file", "filemagic", "libmagic"]
 categories = ["api-bindings"]
 repository = "https://github.com/marirs/filemagic-rs"
+homepage = "https://github.com/marirs/filemagic-rs"
 authors = [
     "MARIRS <marirs@gmail.com>",
     "robo9k <robo@9k.lv>",

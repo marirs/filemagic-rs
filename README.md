@@ -18,7 +18,7 @@ It can also load a custom database of magic strings.
 
 Adding dependency to your `Cargo.toml` file
 ```toml
-filemagic = "0.12.5"
+filemagic = "0.13.1"
 ```
 
 ## vendored
@@ -28,7 +28,7 @@ static link a vendored version of libmagic, currently based on 5.45.
 
 Adding dependency to your `Cargo.toml` file
 ```toml
-filemagic = { version = "0.12.5", features = ["vendored"] }
+filemagic = { version = "0.13.1", features = ["vendored"] }
 ```
 
 ---

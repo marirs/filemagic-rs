@@ -82,8 +82,7 @@ fn try_vendored() {
 fn main() {
     #[cfg(feature = "vendored")]
     {
-        let lib = try_vendored();
-        return;
+        try_vendored();
     }
 
     #[cfg(feature = "pkg-config")]

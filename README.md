@@ -18,7 +18,7 @@ It can also load a custom database of magic strings.
 
 Adding dependency to your `Cargo.toml` file
 ```toml
-filemagic = "0.12.3"
+filemagic = "0.12.4"
 ```
 ---
 ### Using Macros

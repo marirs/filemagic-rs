@@ -3,7 +3,7 @@ use libc::{c_char, c_int, size_t};
 
 pub enum Magic {}
 
-/// libmagic declarations
+// libmagic declarations
 #[link(name = "magic")]
 extern "C" {
     pub fn magic_open(flags: c_int) -> *const Magic;

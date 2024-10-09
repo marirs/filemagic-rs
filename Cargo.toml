@@ -11,7 +11,7 @@ authors = [
     "MARIRS <marirs@gmail.com>",
     "robo9k <robo@9k.lv>",
 ]
-version = "0.12.3"
+version = "0.12.4"
 exclude = [
     ".gitignore",
     ".travis.yml",
@@ -24,11 +24,22 @@ travis-ci = { repository = "marirs/filemagic-rs" }
 name = "filemagic"
 
 [dependencies]
-bitflags = "1.2.1"
-libc = "0.2.81"
+bitflags = "2"
+libc = "0.2"
+pkg-config = "0.3"
+vcpkg = "0.2"
 
 [dev-dependencies]
 regex = "1.4.2"
+
+[features]
+default = ["pkg-config", "vcpkg"]
+# the "default" version feature would be v5-39, but that's API-wise the same as v5-38
+v5-40 = []
+
+[build-dependencies]
+pkg-config = { version = "0.3.27", optional = true }
+vcpkg = { version = "0.2.15", optional = true }
 
 [profile.dev]
 opt-level = 3

@@ -14,13 +14,11 @@
 //! ```no_run
 //! use filemagic::Magic;
 //!
-//! fn main() {
-//!    let test_file = "path/to/file";
-//!    let cookie = Magic::open(Default::default()).expect("error");
-//!     cookie.load::<String>(&[]).expect("error");
-//!     let magic = cookie.file(&test_file).expect("error in magic");
-//!     println!("magic= {}", magic);
-//! }
+//! let test_file = "path/to/file";
+//! let cookie = Magic::open(Default::default()).expect("error");
+//! cookie.load::<String>(&[]).expect("error");
+//! let magic = cookie.file(&test_file).expect("error in magic");
+//! println!("magic= {}", magic);
 //! ```
 #![crate_type = "lib"]
 #[macro_use]
@@ -175,7 +173,11 @@ impl Magic {
         unsafe {
             ret = api::magic_check(cookie, db_filenames);
         }
-        if 0 == ret { Ok(()) } else { Err(self.magic_failure()) }
+        if 0 == ret {
+            Ok(())
+        } else {
+            Err(self.magic_failure())
+        }
     }
 
     /// Compiles the given database `filenames` for faster access
@@ -189,7 +191,11 @@ impl Magic {
         unsafe {
             ret = api::magic_compile(cookie, db_filenames);
         }
-        if 0 == ret { Ok(()) } else { Err(self.magic_failure()) }
+        if 0 == ret {
+            Ok(())
+        } else {
+            Err(self.magic_failure())
+        }
     }
 
     /// Dumps all magic entries in the given database `filenames` in a human readable format
@@ -201,7 +207,11 @@ impl Magic {
         unsafe {
             ret = api::magic_list(cookie, db_filenames);
         }
-        if 0 == ret { Ok(()) } else { Err(self.magic_failure()) }
+        if 0 == ret {
+            Ok(())
+        } else {
+            Err(self.magic_failure())
+        }
     }
 
     /// Sets the flags to use
@@ -230,8 +240,7 @@ impl Magic {
     }
 
     /// Loads the given database `filenames` for further queries
-    ///
-    /// Adds '.mgc'	to the database	files as appropriate.
+    /// Adds '.mgc' to the database files as appropriate.
     pub fn load<P: AsRef<Path>>(&self, magic_databases: &[P]) -> Result<(), FileMagicError> {
         let cookie = self.magic;
         let db_filenames = db_filenames(magic_databases);

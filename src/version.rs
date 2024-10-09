@@ -2,10 +2,10 @@
 pub fn version() -> &'static str {
     // TODO: There's also an optional _PRE part
     concat!(
-    env!("CARGO_PKG_VERSION_MAJOR"),
-    ".",
-    env!("CARGO_PKG_VERSION_MINOR"),
-    ".",
-    env!("CARGO_PKG_VERSION_PATCH"),
+        env!("CARGO_PKG_VERSION_MAJOR"),
+        ".",
+        env!("CARGO_PKG_VERSION_MINOR"),
+        ".",
+        env!("CARGO_PKG_VERSION_PATCH"),
     )
 }

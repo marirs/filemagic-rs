@@ -1,10 +1,6 @@
 extern crate regex;
 
-use super::{
-    Magic, Flags,
-    version as ver
-};
-
+use super::{version as ver, Flags, Magic};
 
 #[test]
 fn version() {
@@ -31,7 +27,10 @@ fn get_file_mime() {
 
     let path = "data/rust-logo-128x128-blk.png";
 
-    assert_eq!(cookie.file(&path).unwrap(), "PNG image data, 128 x 128, 8-bit/color RGBA, non-interlaced");
+    assert_eq!(
+        cookie.file(&path).unwrap(),
+        "PNG image data, 128 x 128, 8-bit/color RGBA, non-interlaced"
+    );
 
     cookie.set_flags(Flags::MIME_TYPE);
     assert_eq!(cookie.file(&path).unwrap(), "image/png");
@@ -46,7 +45,10 @@ fn get_buffer_mime() {
     assert!(cookie.load(&vec!["data/db-python"].as_slice()).is_ok());
 
     let s = b"#!/usr/bin/env python\nprint('Hello, world!')";
-    assert_eq!(cookie.buffer(s).unwrap(), "Python script, ASCII text executable");
+    assert_eq!(
+        cookie.buffer(s).unwrap(),
+        "Python script, ASCII text executable"
+    );
 
     cookie.set_flags(Flags::MIME_TYPE);
     assert_eq!(cookie.buffer(s).unwrap(), "text/x-python");
@@ -59,7 +61,10 @@ fn file_error() {
 
     let ret = cookie.file("non-existent_file.txt");
     assert!(ret.is_err());
-    assert_eq!(ret.err().unwrap().desc, "cannot stat `non-existent_file.txt' (No such file or directory)");
+    assert_eq!(
+        ret.err().unwrap().desc,
+        "cannot stat `non-existent_file.txt' (No such file or directory)"
+    );
 }
 
 #[test]
@@ -69,19 +74,12 @@ fn macro_load_default_db() {
 
 #[test]
 fn macro_load_one_db() {
-    assert!(
-        magic!(,&vec!["data/db-images-png"]).is_ok()
-    );
+    assert!(magic!(,&vec!["data/db-images-png"]).is_ok());
 }
 
 #[test]
 fn macro_load_one_db_with_flags() {
-    assert!(
-        magic!(
-        Flags::NONE | Flags::ERROR,
-        &vec!["data/db-images-png"]
-        ).is_ok()
-    );
+    assert!(magic!(Flags::NONE | Flags::ERROR, &vec!["data/db-images-png"]).is_ok());
 }
 
 #[test]
@@ -89,7 +87,10 @@ fn macro_get_file_mime() {
     let cookie = magic!().unwrap();
     let path = "data/rust-logo-128x128-blk.png";
 
-    assert_eq!(cookie.file(&path).unwrap(), "PNG image data, 128 x 128, 8-bit/color RGBA, non-interlaced");
+    assert_eq!(
+        cookie.file(&path).unwrap(),
+        "PNG image data, 128 x 128, 8-bit/color RGBA, non-interlaced"
+    );
 
     cookie.set_flags(Flags::MIME_TYPE);
     assert_eq!(cookie.file(&path).unwrap(), "image/png");
@@ -104,7 +105,10 @@ fn macro_get_buffer_mime() {
     assert!(cookie.load(&vec!["data/db-python"].as_slice()).is_ok());
 
     let s = b"#!/usr/bin/env python\nprint('Hello, world!')";
-    assert_eq!(cookie.buffer(s).unwrap(), "Python script, ASCII text executable");
+    assert_eq!(
+        cookie.buffer(s).unwrap(),
+        "Python script, ASCII text executable"
+    );
 
     cookie.set_flags(Flags::MIME_TYPE);
     assert_eq!(cookie.buffer(s).unwrap(), "text/x-python");

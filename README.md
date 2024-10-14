@@ -23,7 +23,7 @@ filemagic = "0.13.1"
 
 ## vendored
 
-The `vendored` feature uses the [`cc` crate](https:/docs.rs/cc) to compile and
+The `vendored` feature uses the [`cc` crate](https://docs.rs/cc) to compile and
 static link a vendored version of libmagic, currently based on 5.45.
 
 Adding dependency to your `Cargo.toml` file
